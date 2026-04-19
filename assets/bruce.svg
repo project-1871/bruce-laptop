@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="10" fill="#0a0605"/>
+  <!-- B letterform -->
+  <rect x="14" y="10" width="5" height="44" rx="2" fill="#ff6600"/>
+  <rect x="14" y="10" width="22" height="5" rx="2" fill="#ff6600"/>
+  <rect x="14" y="30" width="20" height="5" rx="2" fill="#ff6600"/>
+  <rect x="14" y="49" width="24" height="5" rx="2" fill="#ff6600"/>
+  <path d="M36 10 Q50 10 50 22 Q50 31 36 31" fill="none" stroke="#ff6600" stroke-width="5" stroke-linecap="round"/>
+  <path d="M34 31 Q52 31 52 44 Q52 54 34 54" fill="none" stroke="#ff6600" stroke-width="5" stroke-linecap="round"/>
+  <!-- wifi dots -->
+  <circle cx="52" cy="10" r="2.5" fill="#ffaa00"/>
+  <circle cx="58" cy="10" r="2.5" fill="#ffaa00" opacity="0.5"/>
+  <circle cx="46" cy="10" r="2.5" fill="#ffaa00" opacity="0.25"/>
+</svg>

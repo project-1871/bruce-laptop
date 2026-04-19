@@ -1,0 +1,243 @@
+window,
+.main-bg {
+    background-color: #080604;
+    color: #ff8800;
+}
+
+headerbar {
+    background-color: #100800;
+    border-bottom: 1px solid #3a1a00;
+    color: #ff6600;
+}
+
+headerbar .title {
+    color: #ff6600;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.sidebar {
+    background-color: #0a0600;
+    border-right: 1px solid #3a1a00;
+    min-width: 210px;
+}
+
+.sidebar row {
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+}
+
+.sidebar row:hover {
+    background-color: #1a0c00;
+}
+
+.sidebar row:selected {
+    background-color: #2a1200;
+}
+
+.section-btn {
+    background-color: transparent;
+    color: #dd6600;
+    border: none;
+    border-radius: 0;
+    padding: 11px 16px;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.section-btn:hover {
+    color: #ffaa00;
+}
+
+row:selected .section-btn {
+    color: #ffaa00;
+}
+
+.content-area {
+    background-color: #080604;
+    padding: 0;
+}
+
+.section-grid {
+    background-color: #080604;
+    padding: 24px;
+}
+
+.section-header {
+    color: #ff8800;
+    font-family: monospace;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.section-subtext {
+    color: #663300;
+    font-family: monospace;
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+
+.tool-card {
+    background-color: #100800;
+    border: 1px solid #3a1a00;
+    border-radius: 6px;
+    padding: 14px 18px;
+    min-width: 180px;
+    min-height: 56px;
+    color: #dd6600;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.tool-card:hover {
+    background-color: #2a1200;
+    border-color: #ff6600;
+    color: #ffaa00;
+}
+
+.tool-card.stub {
+    color: #442200;
+    border-color: #221000;
+}
+
+.tool-view {
+    background-color: #080604;
+    padding: 0;
+}
+
+.tool-view-header {
+    background-color: #0a0600;
+    border-bottom: 1px solid #3a1a00;
+    padding: 10px 16px;
+}
+
+.tool-view-title {
+    color: #ff8800;
+    font-family: monospace;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.controls-bar {
+    background-color: #0a0700;
+    border-bottom: 1px solid #3a1a00;
+    padding: 8px 16px;
+}
+
+.terminal {
+    background-color: #060401;
+    color: #ee8800;
+    font-family: monospace;
+    font-size: 12px;
+    caret-color: #ff6600;
+}
+
+.btn-start {
+    background-color: #1a0c00;
+    color: #ff6600;
+    border: 1px solid #5a2a00;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 6px 16px;
+}
+
+.btn-start:hover {
+    background-color: #2a1400;
+    border-color: #ff6600;
+}
+
+.btn-start:disabled {
+    color: #442200;
+    border-color: #2a1000;
+}
+
+.btn-stop {
+    background-color: #2a0a0a;
+    color: #ff4444;
+    border: 1px solid #5a1a1a;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 6px 16px;
+}
+
+.btn-stop:hover {
+    background-color: #4a1a1a;
+    border-color: #ff4444;
+}
+
+.btn-stop:disabled {
+    color: #663333;
+    border-color: #2a1a1a;
+}
+
+.btn-action {
+    background-color: #1a0e00;
+    color: #ffaa00;
+    border: 1px solid #4a2a00;
+    border-radius: 4px;
+    font-family: monospace;
+    padding: 6px 14px;
+}
+
+.btn-action:hover {
+    background-color: #2a1a00;
+    border-color: #ffaa00;
+}
+
+.btn-back {
+    background-color: transparent;
+    color: #774400;
+    border: 1px solid #3a2000;
+    border-radius: 4px;
+    font-family: monospace;
+    padding: 6px 12px;
+}
+
+.btn-back:hover {
+    color: #ff8800;
+    border-color: #ff8800;
+}
+
+.field-input {
+    background-color: #080500;
+    color: #ff8800;
+    border: 1px solid #3a1a00;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 6px 10px;
+    caret-color: #ff6600;
+}
+
+.field-input:focus {
+    border-color: #ff6600;
+}
+
+.field-label {
+    color: #884400;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.mode-banner-offensive {
+    color: #ff4444;
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.mode-banner-monitor {
+    color: #ffaa00;
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.status-ok  { color: #ff6600; font-family: monospace; font-size: 12px; }
+.status-warn { color: #ffaa00; font-family: monospace; font-size: 12px; }
+.status-err  { color: #ff4444; font-family: monospace; font-size: 12px; }
+.status-dim  { color: #553300; font-family: monospace; font-size: 12px; }

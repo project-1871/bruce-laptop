@@ -1,0 +1,9 @@
+textual
+bleak
+scapy
+netifaces
+pyserial
+qrcode[pil]
+Pillow
+flask
+flask-cors
