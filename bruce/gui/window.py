@@ -336,6 +336,12 @@ class BruceWindow(Gtk.ApplicationWindow):
         self._mode_combo.set_selected(0 if (STATE.mode or "OFFENSIVE") == "OFFENSIVE" else 1)
         box.append(row("Mode", self._mode_combo))
 
+        self._sudo_entry = Gtk.PasswordEntry()
+        self._sudo_entry.set_show_peek_icon(True)
+        self._sudo_entry.set_text(STATE.sudo_password)
+        self._sudo_entry.set_hexpand(True)
+        box.append(row("Sudo Password", self._sudo_entry))
+
         loot_lbl = Gtk.Label(label=str(STATE.loot_path))
         loot_lbl.add_css_class("status-dim")
         box.append(row("Loot Directory", loot_lbl))
@@ -362,6 +368,7 @@ class BruceWindow(Gtk.ApplicationWindow):
         if idx < len(bt_ifaces):
             STATE.config["bt_iface"] = bt_ifaces[idx]
         STATE.mode = "OFFENSIVE" if self._mode_combo.get_selected() == 0 else "MONITOR"
+        STATE.sudo_password = self._sudo_entry.get_text()
         STATE.save()
         self._save_status.set_text("✓ Saved.")
         GLib.timeout_add(2000, lambda: self._save_status.set_text(""))

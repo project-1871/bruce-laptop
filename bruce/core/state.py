@@ -11,6 +11,9 @@ DEFAULTS = {
     "bt_iface": "hci0",
 }
 
+# Session-only: never persisted to disk
+_sudo_password: str = ""
+
 
 class State:
     def __init__(self):
@@ -51,6 +54,16 @@ class State:
     @property
     def is_offensive(self) -> bool:
         return self.config.get("mode") == "OFFENSIVE"
+
+    @property
+    def sudo_password(self) -> str:
+        global _sudo_password
+        return _sudo_password
+
+    @sudo_password.setter
+    def sudo_password(self, v: str):
+        global _sudo_password
+        _sudo_password = v
 
     @property
     def loot_path(self) -> Path:
