@@ -26,6 +26,7 @@ def _build_sections():
         QRCodeView, TimerView, SerialMonitorView, DeviceInfoView,
         ScriptsView, FilesView, WebUIView,
     )
+    from bruce.gui.antenna_view import AntennaManagerView
 
     def stub(name, hw):
         return lambda: HardwareStubView(name, hw)
@@ -82,10 +83,11 @@ def _build_sections():
             ("Script Runner",       ScriptsView,    False),
         ]),
         ("others", "09  Others", [
-            ("QR Code Generator",   QRCodeView,     False),
-            ("Timer",               TimerView,      False),
+            ("QR Code Generator",   QRCodeView,        False),
+            ("Timer",               TimerView,         False),
             ("Serial Monitor",      SerialMonitorView, False),
-            ("Device Info",         DeviceInfoView, False),
+            ("Device Info",         DeviceInfoView,    False),
+            ("Antenna Manager",     AntennaManagerView,False),
         ]),
         ("files", "10  Files", [
             ("Loot Files",          FilesView,      False),

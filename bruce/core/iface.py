@@ -78,6 +78,86 @@ def detect_si4713() -> bool:
         return False
 
 
+def _get_phy(iface: str) -> str:
+    try:
+        return Path(f"/sys/class/net/{iface}/phy80211").resolve().name
+    except Exception:
+        return "phy0"
+
+
+def _get_chipset(iface: str) -> str:
+    try:
+        return Path(f"/sys/class/net/{iface}/device/driver").resolve().name
+    except Exception:
+        return "unknown"
+
+
+def get_adapter_info(iface: str) -> dict:
+    info = {
+        "iface": iface,
+        "phy": _get_phy(iface),
+        "chipset": _get_chipset(iface),
+        "bands": [],
+        "monitor": False,
+        "injection": False,
+        "tx_power_dbm": None,
+        "mode": "unknown",
+    }
+    try:
+        r = subprocess.run(["iw", "phy", info["phy"], "info"],
+                           capture_output=True, text=True, timeout=5)
+        out = r.stdout
+        if "monitor" in out:
+            info["monitor"] = True
+        if any(f in out for f in ("2412", "2437", "2462")):
+            info["bands"].append("2.4GHz")
+        if any(f in out for f in ("5180", "5240", "5745")):
+            info["bands"].append("5GHz")
+        if "\tAP\n" in out or " AP\n" in out:
+            info["injection"] = True
+    except Exception:
+        pass
+    try:
+        r = subprocess.run(["iw", "dev", iface, "info"],
+                           capture_output=True, text=True, timeout=5)
+        for line in r.stdout.splitlines():
+            ls = line.strip()
+            if ls.startswith("type "):
+                info["mode"] = ls.split()[1]
+            elif "txpower" in ls:
+                parts = ls.split()
+                try:
+                    info["tx_power_dbm"] = float(parts[1])
+                except Exception:
+                    pass
+    except Exception:
+        pass
+    return info
+
+
+def set_tx_power(iface: str, dbm: float) -> tuple[bool, str]:
+    mdbm = int(dbm * 100)
+    try:
+        r = _sudo_run(["iw", "dev", iface, "set", "txpower", "fixed", str(mdbm)],
+                      capture_output=True, text=True, timeout=5)
+        if r.returncode == 0:
+            return True, f"{iface} TX power → {dbm:.1f} dBm"
+        return False, r.stderr.strip() or f"set txpower failed (rc={r.returncode})"
+    except Exception as e:
+        return False, str(e)
+
+
+def set_tx_power_auto(iface: str) -> tuple[bool, str]:
+    try:
+        r = _sudo_run(["iw", "dev", iface, "set", "txpower", "auto"],
+                      capture_output=True, text=True, timeout=5)
+        if r.returncode == 0:
+            return True, f"{iface} TX power → auto (driver max)"
+        return False, r.stderr.strip() or f"set txpower auto failed (rc={r.returncode})"
+    except Exception as e:
+        return False, str(e)
+
+
 def get_system_info() -> dict:
     info: dict = {}
     try:
