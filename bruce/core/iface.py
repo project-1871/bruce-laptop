@@ -22,11 +22,19 @@ def is_root() -> bool:
     return os.geteuid() == 0
 
 
+def _sudo_run(cmd: list[str], **kwargs):
+    from bruce.core.state import STATE
+    pw = STATE.sudo_password
+    if pw:
+        return subprocess.run(["sudo", "-S"] + cmd, input=pw + "\n", text=True, **kwargs)
+    return subprocess.run(["sudo"] + cmd, **kwargs)
+
+
 def set_monitor_mode(iface: str) -> tuple[bool, str]:
     try:
-        subprocess.run(["sudo", "ip", "link", "set", iface, "down"], timeout=5)
-        subprocess.run(["sudo", "iw", "dev", iface, "set", "type", "monitor"], timeout=5)
-        subprocess.run(["sudo", "ip", "link", "set", iface, "up"], timeout=5)
+        _sudo_run(["ip", "link", "set", iface, "down"], timeout=5)
+        _sudo_run(["iw", "dev", iface, "set", "type", "monitor"], timeout=5)
+        _sudo_run(["ip", "link", "set", iface, "up"], timeout=5)
         return True, f"{iface} → monitor"
     except Exception as e:
         return False, str(e)
@@ -34,9 +42,9 @@ def set_monitor_mode(iface: str) -> tuple[bool, str]:
 
 def set_managed_mode(iface: str) -> tuple[bool, str]:
     try:
-        subprocess.run(["sudo", "ip", "link", "set", iface, "down"], timeout=5)
-        subprocess.run(["sudo", "iw", "dev", iface, "set", "type", "managed"], timeout=5)
-        subprocess.run(["sudo", "ip", "link", "set", iface, "up"], timeout=5)
+        _sudo_run(["ip", "link", "set", iface, "down"], timeout=5)
+        _sudo_run(["iw", "dev", iface, "set", "type", "managed"], timeout=5)
+        _sudo_run(["ip", "link", "set", iface, "up"], timeout=5)
         return True, f"{iface} → managed"
     except Exception as e:
         return False, str(e)

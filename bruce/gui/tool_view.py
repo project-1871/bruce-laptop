@@ -148,10 +148,25 @@ class ToolView(Gtk.Box):
     def stream_cmd(self, cmd: list[str] | str, use_sudo: bool = True):
         if isinstance(cmd, str):
             cmd = shlex.split(cmd)
+        stdin_data = None
         if use_sudo and cmd[0] != "sudo":
-            cmd = ["sudo"] + cmd
+            from bruce.core.state import STATE
+            pw = STATE.sudo_password
+            if pw:
+                cmd = ["sudo", "-S"] + cmd
+                stdin_data = (pw + "\n").encode()
+            else:
+                cmd = ["sudo"] + cmd
         self.log(f"$ {' '.join(cmd)}", "dim")
-        self._proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        self._proc = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.PIPE if stdin_data else None,
+        )
+        if stdin_data and self._proc.stdin:
+            self._proc.stdin.write(stdin_data)
+            self._proc.stdin.close()
         for line in self._proc.stdout:
             if not self._running:
                 break
@@ -161,9 +176,16 @@ class ToolView(Gtk.Box):
     def run_cmd(self, cmd: list[str] | str, use_sudo: bool = True) -> tuple[int, str]:
         if isinstance(cmd, str):
             cmd = shlex.split(cmd)
+        stdin_str = None
         if use_sudo and cmd[0] != "sudo":
-            cmd = ["sudo"] + cmd
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            from bruce.core.state import STATE
+            pw = STATE.sudo_password
+            if pw:
+                cmd = ["sudo", "-S"] + cmd
+                stdin_str = pw + "\n"
+            else:
+                cmd = ["sudo"] + cmd
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=30, input=stdin_str)
         return r.returncode, r.stdout + r.stderr
 
     def kill_proc(self):
